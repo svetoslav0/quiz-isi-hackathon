@@ -22,7 +22,7 @@ const register = asyncHandler(async (req, res) => {
     const connection = mysql.createConnection({
         host: "localhost",
         user: "root",
-        password: "root",
+        password: "raptor47",
         database: "quiz"
     });
 
@@ -47,7 +47,64 @@ const register = asyncHandler(async (req, res) => {
     return res.status(201).json({ created: true });
 });
 
+const login = asyncHandler(async (req, res) => {
+    const user = {
+        email: req.body.email,
+        password: req.body.password
+    };
+
+    const connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "raptor47",
+        database: "quiz"
+    });
+
+    connection.connect(err => {
+        if (err) {
+            console.log(err);
+        }
+
+        const query = "SELECT password, token FROM user WHERE email=?";
+        const values = [[user.email]];
+
+        connection.query(query, [values], async (error, result) => {
+            if (error) {
+                console.log(error);
+            }
+
+            console.log('Affected rows: ');
+            console.log(result.affectedRows);
+
+            const data  = result[0];
+
+            const hashed_pass = data.password;
+            const token = data.token;
+
+            const isUserValidated = await Bcrypt.compare(user.password, hashed_pass);
+
+            let response = {
+                error: "Invalid username or password!"
+            }
+
+            let statusCode = 404;
+
+            if(isUserValidated) {
+                response = {
+                    token: token
+                }
+
+                statusCode = 200;
+            }
+
+            res.status(statusCode).json(response);
+
+        });
+    });
+});
+
 
 export {
-    register
+    register,
+    login
 };
