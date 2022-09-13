@@ -5,6 +5,8 @@ import helmet from 'helmet';
 import cors from 'cors';
 import healthRoutes from './routes/health.routes.js';
 
+dotenv.config();
+
 const corsOptions = {
   origin: 'http://localhost:3000'
 };
