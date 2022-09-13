@@ -3,6 +3,13 @@ import Bcrypt from 'bcrypt';
 import mysql from 'mysql';
 import jwt from 'jsonwebtoken';
 
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "raptor47",
+    database: "quiz"
+});
+
 const register = asyncHandler(async (req, res) => {
     const salt = await Bcrypt.genSalt(10);
     const userPassword = await Bcrypt.hash(req.body.password, salt);
@@ -18,13 +25,6 @@ const register = asyncHandler(async (req, res) => {
 
     user.password = userPassword;
     user.token = token;
-
-    const connection = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "raptor47",
-        database: "quiz"
-    });
 
     connection.connect(err => {
         if (err) {
@@ -52,13 +52,6 @@ const login = asyncHandler(async (req, res) => {
         email: req.body.email,
         password: req.body.password
     };
-
-    const connection = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "raptor47",
-        database: "quiz"
-    });
 
     connection.connect(err => {
         if (err) {
