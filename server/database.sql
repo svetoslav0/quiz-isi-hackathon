@@ -93,3 +93,5 @@ ALTER TABLE `user_answers`
 	ADD CONSTRAINT `FK_user_answers_quiz_question` FOREIGN KEY (`question_id`) REFERENCES `quiz_question` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
 	ADD CONSTRAINT `FK_user_answers_quiz_answer` FOREIGN KEY (`answer_id`) REFERENCES `quiz_answer` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+ALTER TABLE `quiz_question`
+    ADD COLUMN `is_open` SMALLINT NOT NULL DEFAULT 0 AFTER `category_id`;
