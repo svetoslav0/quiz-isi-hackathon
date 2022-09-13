@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import colors from 'colors';
 import helmet from 'helmet';
 import cors from 'cors';
-import healthRoutes from './routes/health,routes';
+import healthRoutes from './routes/health.routes.js';
 
 const corsOptions = {
   origin: 'http://localhost:3000'
